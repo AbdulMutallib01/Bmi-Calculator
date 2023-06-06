@@ -2,15 +2,17 @@ import React,{useState} from 'react';
 
 const App = () => {
 
-    const [weight, setWeight] = useState();
-    const [height, setHeight] = useState();
+    const [weight, setWeight] = useState("");
+    const [height, setHeight] = useState("");
     const [bmi, setBmi] = useState("");
     const [message, setMessage] = useState("");
+    const [weightError, setWeightError] = useState("")
+    const [heightError, setHeightError] = useState()
 
     const formSubmit = (e) => {
         e.preventDefault();
         if(weight === 0 || height === 0){
-            alert("Please enter value")
+            console.log("Please enter value")
         }
         else{
             let bmi = (weight/(height*height)*703)
@@ -26,10 +28,34 @@ const App = () => {
                 setMessage("You are overweight")
             }
         }
+        if(weight === "" ){
+            setWeightError("*Please Enter Height Value*")
+        }
+        else{
+            setWeightError("")
+        }
+        if(height === "" ){
+            setHeightError("*Please Enter Weight Value*")
+        }
+        else{
+            setHeightError("")
+        }
+        setHeight("")
+        setWeight("")
     }
 
     const reset = () => {
         window.location.reload();
+    }
+
+    const handleChange = (e) => {
+        setWeight(e.target.value);
+        setWeightError("");
+    }
+
+    const handleChange2 = (e) => {
+        setHeight(e.target.value);
+        setHeightError("");
     }
 
   return (
@@ -39,11 +65,17 @@ const App = () => {
             <form onSubmit={formSubmit}>
                 <div>
                     <label htmlFor="">Weight (lbs)</label>
-                    <input type="text" placeholder='Enter Weight' value={weight} onChange={(e)=>{setWeight(e.target.value)}} />
+                    <input type="text" placeholder='Enter Weight' value={weight} onChange={handleChange} />
+                </div>
+                <div>
+                    <p style={{color: 'red'}}>{weightError}</p>
                 </div>
                 <div>
                     <label htmlFor="">Height (in)</label>
-                    <input type="text" placeholder='Enter Height' value={height} onChange={(e)=>{setHeight(e.target.value)}} />
+                    <input type="text" placeholder='Enter Height' value={height} onChange={handleChange2} />
+                </div>
+                <div>
+                    <p style={{color: 'red'}}>{heightError}</p>
                 </div>
                 <div>
                     <button className="btn" type='submit'>Submit</button>
